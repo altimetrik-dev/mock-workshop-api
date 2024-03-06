@@ -10,9 +10,10 @@ import {
   CompanyOutDTO,
 } from '../../models/dtos/company.out';
 import { CompanyService } from '../../services/company/company.service';
-import { ApiBody, ApiParam, ApiQuery } from '@nestjs/swagger';
+import { ApiBody, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 @Controller(API_PATH('company'))
+@ApiTags('Company')
 export class CompanyController {
   constructor(private readonly service: CompanyService) {}
   @Get()

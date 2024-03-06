@@ -1,0 +1,150 @@
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  # Added by API Auto Mocking Plugin
+  # Added by API Auto Mocking Plugin
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/asanchez5/Worhshop_API/1.0.0
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/Altimetrik_BK/API_MOCK_Workshop/1.0.0
+  - description: SwaggerHub API Auto Mocking
+    url: https://angel-ws-local.ngrok.io/v1
+    # url: https://virtserver.swaggerhub.com/Altimetrik_BK/API_MOCK_Workshop/1.0.0
+info:
+  description: Workshop API Mocking capabilities
+  version: '1.0.0'
+  title: Simple API
+  contact:
+    email: asanchez@altimetrik.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: Company Data
+    description: Company Information
+paths:
+  /company:
+    get:
+      tags:
+        - Company Data
+      summary: searches companies
+      operationId: searchCompany
+      description: |
+        By passing in the appropriate options, you can search for
+        companies in the system
+      parameters:
+        - in: query
+          name: searchString
+          description: pass an optional search string for looking up company list
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: skip
+          description: number of records to skip for pagination
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+        - in: query
+          name: limit
+          description: maximum number of records to return
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 50
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CompanyDataList'
+        '400':
+          description: bad input parameter
+    post:
+      tags:
+        - Company Data
+      summary: adds a company
+      operationId: addCompany
+      description: Adds a Company to the system
+      responses:
+        '201':
+          description: Company Added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanyData'
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: Duplicated company data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCompany'
+        description: Company to add
+components:
+  schemas:
+    CompanyDataList:
+      type: object
+      properties:
+        skip:
+          type: integer
+          format: int32
+          minimum: 0
+        limit:
+          type: integer
+          format: int32
+          minimum: 0
+        total:
+          type: integer
+          format: int32
+          minimum: 0
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompanyData'
+    CompanyData:
+      type: object
+      required:
+        - id
+        - name
+        - connections
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        name:
+          type: string
+          example: ACME Corporation
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateCompanyConnection'
+    CreateCompany:
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: ACME Corporation
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateCompanyConnection'
+      type: object
+    CreateCompanyConnection:
+      type: object
+      properties:
+        reference:
+          type: string
+        type:
+          type: string
+          enum: [CLIENT, MC_NUMBER, GROUP]
