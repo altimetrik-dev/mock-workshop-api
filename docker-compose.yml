@@ -1,0 +1,28 @@
+version: '3.9'
+services:
+  workshop_mongodb:
+    image: mongo:4.2.17
+    container_name: workshop_mongodb
+    ports:
+      - 27017:27017
+    expose:
+      - 27017
+    volumes:
+      - ~/apps/mongo:/data/db
+      - ./db-init-scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+  workshop_api:
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    container_name: workshop_api
+    ports:
+      - '80:80'
+      - '9229:9229'
+    environment:
+      - APP_ENV=docker
+      - NODE_ENV=development
+    volumes:
+      - '/app/node_modules'
+      - '.:/usr/src/app'
+    links:
+      - workshop_mongodb
