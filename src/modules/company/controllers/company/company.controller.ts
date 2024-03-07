@@ -17,7 +17,21 @@ import { ApiBody, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 export class CompanyController {
   constructor(private readonly service: CompanyService) {}
   @Get()
-  @ApiQuery({ type: FilterCompanyInDTO })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    type: Number,
+  })
+  @ApiQuery({
+    name: 'skip',
+    required: false,
+    type: Number,
+  })
+  @ApiQuery({
+    name: 'search',
+    required: false,
+    type: String,
+  })
   async list(
     @Query('search')
     search: string,
