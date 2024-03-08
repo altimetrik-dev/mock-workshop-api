@@ -16,7 +16,7 @@ services:
       dockerfile: Dockerfile.dev
     container_name: workshop_api
     ports:
-      - '80:80'
+      - '8081:80'
       - '9229:9229'
     environment:
       - APP_ENV=docker

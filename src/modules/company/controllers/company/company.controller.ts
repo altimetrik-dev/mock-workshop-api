@@ -32,8 +32,14 @@ export class CompanyController {
   async list(
     @Query('search')
     search: string,
-    @Query('skip') skip: number = 0,
-    @Query('limit') limit: number = 10,
+    @Query('skip', {
+      transform: ({ value }) => (isNaN(value) ? 0 : Number(value)),
+    })
+    skip: number = 0,
+    @Query('limit', {
+      transform: ({ value }) => (isNaN(value) ? 10 : Number(value)),
+    })
+    limit: number = 10,
   ): Promise<ResponseOutDto<CompanyListOutDTO>> {
     try {
       const data: CompanyListOutDTO = await this.service.findAll(

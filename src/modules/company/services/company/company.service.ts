@@ -33,8 +33,8 @@ export class CompanyService {
       .exec();
     const total = await this.model.find(query).countDocuments().exec();
     return {
-      skip,
-      limit,
+      skip: skip || 0,
+      limit: limit || 10,
       total,
       data: data.map((d) => this.map(d)),
     };
