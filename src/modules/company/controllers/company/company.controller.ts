@@ -1,9 +1,6 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { API_PATH } from 'src/modules/core/helpers/api.helper';
-import {
-  CreateCompanyInDTO,
-  FilterCompanyInDTO,
-} from '../../models/dtos/company.in';
+import { CreateCompanyInDTO } from '../../models/dtos/company.in';
 import { ResponseOutDto } from 'src/modules/core/models/dtos/response-base.out.dto';
 import {
   CompanyListOutDTO,
